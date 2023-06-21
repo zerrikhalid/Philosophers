@@ -30,20 +30,14 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
-int	start_philos(t_philo *philos, t_data *data)
+int	start_philos(t_philo *philos)
 {
-	int	i;
-
-	i = -1;
-	while (++i < data->nbr_philos)
-		philos[i].last_meals = current_time();
-	i = -1;
-	while (++i < data->nbr_philos)
-	{
-		if (pthread_create(&philos[i].thread, NULL, routine, \
-			(void *)(philos + i)))
-			return (1);
-	}
+	philos->last_meals = current_time();
+	if (pthread_create(&philos->thread, NULL, routine, \
+		(void *)(philos)))
+		return (1);
+	pthread_detach(philos->thread);
+	check_death(philos);
 	return (0);
 }
 
@@ -64,12 +58,44 @@ t_philo	*create_philos(t_data *data)
 	return (philos);
 }
 
+void create_process(t_philo *philo)
+{
+	int i;
+
+	i = -1;
+	while (++i < philo->data->nbr_philos)
+	{
+		philo[i].pid = fork();
+		if (!philo[i].pid)
+		{
+			start_philos(philo + i);
+			exit(0);
+		}
+	}
+}
+
+void	ft_kill(t_philo *philos)
+{
+	int i;
+
+	i = -1;
+	while (++i < philos->data->nbr_philos)
+	{
+		kill(philos[i].pid, 9);
+	}
+	sem_unlink("forks");
+	sem_unlink("print");
+	sem_unlink("meal");
+	sem_close(philos->data->forks);
+	sem_close(philos->data->print);
+	sem_close(philos->data->meal);
+}
+
 int	main(int ac, char **av)
 {
 	int		res;
 	t_data	*data;
 	t_philo	*philos;
-	int		i;
 
 	if (ac < 5 || ac > 6)
 		return (error(1));
@@ -81,10 +107,7 @@ int	main(int ac, char **av)
 		return (error(0));
 	philos = create_philos(data);
 	data->start_time = current_time();
-	if (start_philos(philos, data))
-		return (1);
-	i = -1;
-	while (++i < data->nbr_philos)
-		pthread_detach(philos[i].thread);
-	check_death(philos);
+	create_process(philos);
+	waitpid(-1, NULL, 0);
+	ft_kill(philos);
 }

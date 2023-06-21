@@ -21,6 +21,10 @@
 # include <sys/time.h>
 # include <limits.h>
 # include <stdlib.h>
+# include <semaphore.h>
+# include <signal.h>
+# include <fcntl.h>
+# include <sys/wait.h>
 
 typedef struct s_data
 {
@@ -29,9 +33,9 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				nbr_t_philo_m_eat;
-	pthread_mutex_t	*fork;
-	pthread_mutex_t	print;
-	pthread_mutex_t	meal;
+	sem_t	*forks;
+	sem_t	*print;
+	sem_t	*meal;
 	unsigned long	start_time;
 }t_data;
 
@@ -42,6 +46,7 @@ typedef struct s_philo
 	t_data			*data;
 	int				nbr_of_meals;
 	unsigned long	last_meals;
+	pid_t			pid;
 }t_philo;
 
 int				error(int key);
@@ -50,8 +55,6 @@ unsigned long	current_time(void);
 void			ft_print(t_philo *ph, char *msg, int flag);
 void			ft_sleep(unsigned long time);
 void			ft_eat(t_philo *philo);
-void			check_death(t_philo *philos);
-int				check_meals(t_philo *philos);
 void			check_death(t_philo *philos);
 
 #endif

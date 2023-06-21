@@ -53,11 +53,11 @@ int	check_arguments(char **av, t_data *data)
 		if (i == 5)
 			data->nbr_t_philo_m_eat = res;
 	}
-	data->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * data->nbr_philos);
-	i = -1;
-	while (++i < data->nbr_philos)
-		pthread_mutex_init(&data->fork[i], NULL);
-	pthread_mutex_init(&data->print, NULL);
-	pthread_mutex_init(&data->meal, NULL);
+	sem_unlink("/forks");
+	sem_unlink("/print");
+	sem_unlink("/meal");
+	data->forks = sem_open("/forks", O_CREAT, 0600, data->nbr_philos);
+	data->print = sem_open("/print", O_CREAT, 0600, 1);
+	data->meal = sem_open("/meal", O_CREAT, 0600, 1);
 	return (2);
 }

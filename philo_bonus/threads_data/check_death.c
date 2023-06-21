@@ -14,22 +14,17 @@
 
 void check_death(t_philo *philos)
 {
-	int i;
 	t_data *data = philos->data;
 	while (1)
 	{
-		i = -1;
-		while (++i < data->nbr_philos)
+		sem_wait(data->meal);
+		if (current_time() - philos->last_meals >= (unsigned long)data->time_to_die)
 		{
-			pthread_mutex_lock(&data->meal);
-			if (current_time() - philos[i].last_meals >= (unsigned long)data->time_to_die)
-			{
-				ft_print(philos + i, "has died", 1);
-				return ;
-			}
-			pthread_mutex_unlock(&data->meal);
+			ft_print(philos, "has died", 1);
+			return ;
 		}
-		if (data->nbr_t_philo_m_eat != -1 && check_meals(philos))
+		if (data->nbr_t_philo_m_eat != -1 && philos->nbr_of_meals > data->nbr_t_philo_m_eat)
 			break ;
+		sem_post(data->meal);
 	}
 }

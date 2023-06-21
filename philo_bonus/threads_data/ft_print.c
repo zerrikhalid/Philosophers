@@ -17,8 +17,8 @@ void	ft_print(t_philo *ph, char *msg, int flag)
 	t_data *data;
 
 	data = ph->data;
-	pthread_mutex_lock(&data->print);
+	sem_wait(data->print);
 	printf("%lu  %d %s\n", current_time()  - data->start_time, ph->philo_id + 1, msg);
 	if(!flag)
-		pthread_mutex_unlock(&data->print);
+		sem_post(data->print);
 }
