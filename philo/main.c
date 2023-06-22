@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 18:42:42 by kzerri            #+#    #+#             */
-/*   Updated: 2023/06/21 19:15:25 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/06/22 21:48:33 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,13 @@ int	main(int ac, char **av)
 		return (error(1));
 	data = (t_data *)malloc(sizeof(t_data));
 	if (!data)
-		return (-1);
+		return (1);
 	res = check_arguments(av, data);
 	if (!res || res == -1)
 		return (error(0));
 	philos = create_philos(data);
+	if (!philos)
+		return (1);
 	data->start_time = current_time();
 	if (start_philos(philos, data))
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 18:42:13 by kzerri            #+#    #+#             */
-/*   Updated: 2023/06/20 22:34:03 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/06/22 21:59:10 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,28 @@ int	ft_atoi(char *av)
 	return (res);
 }
 
+int	init(t_data *data)
+{
+	int	i;
+
+	data->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * \
+		data->nbr_philos);
+	if (!data->fork)
+		return (0);
+	i = -1;
+	while (++i < data->nbr_philos)
+		pthread_mutex_init(&data->fork[i], NULL);
+	pthread_mutex_init(&data->print, NULL);
+	pthread_mutex_init(&data->meal, NULL);
+	return (2);
+}
+
 int	check_arguments(char **av, t_data *data)
 {
-	int i;
-	int res;
+	int	i;
+	int	res;
 
 	i = 0;
-
 	data->nbr_t_philo_m_eat = -1;
 	while (av[++i])
 	{
@@ -53,11 +68,5 @@ int	check_arguments(char **av, t_data *data)
 		if (i == 5)
 			data->nbr_t_philo_m_eat = res;
 	}
-	data->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * data->nbr_philos);
-	i = -1;
-	while (++i < data->nbr_philos)
-		pthread_mutex_init(&data->fork[i], NULL);
-	pthread_mutex_init(&data->print, NULL);
-	pthread_mutex_init(&data->meal, NULL);
-	return (2);
+	return (init(data));
 }

@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 18:42:42 by kzerri            #+#    #+#             */
-/*   Updated: 2023/06/21 19:15:25 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/06/22 22:20:50 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	if (philo->philo_id % 2 == 0)
-		usleep(50);
+		usleep(200);
 	while (1)
 	{
 		ft_eat(philo);
@@ -58,9 +58,9 @@ t_philo	*create_philos(t_data *data)
 	return (philos);
 }
 
-void create_process(t_philo *philo)
+void	create_process(t_philo *philo)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < philo->data->nbr_philos)
@@ -72,23 +72,6 @@ void create_process(t_philo *philo)
 			exit(0);
 		}
 	}
-}
-
-void	ft_kill(t_philo *philos)
-{
-	int i;
-
-	i = -1;
-	while (++i < philos->data->nbr_philos)
-	{
-		kill(philos[i].pid, 9);
-	}
-	sem_unlink("forks");
-	sem_unlink("print");
-	sem_unlink("meal");
-	sem_close(philos->data->forks);
-	sem_close(philos->data->print);
-	sem_close(philos->data->meal);
 }
 
 int	main(int ac, char **av)
@@ -106,6 +89,8 @@ int	main(int ac, char **av)
 	if (!res || res == -1)
 		return (error(0));
 	philos = create_philos(data);
+	if (!philos)
+		return (1);
 	data->start_time = current_time();
 	create_process(philos);
 	waitpid(-1, NULL, 0);

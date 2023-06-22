@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:45:50 by kzerri            #+#    #+#             */
-/*   Updated: 2023/06/20 22:39:02 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/06/22 22:20:17 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				nbr_t_philo_m_eat;
-	sem_t	*forks;
-	sem_t	*print;
-	sem_t	*meal;
+	sem_t			*forks;
+	sem_t			*print;
+	sem_t			*meal;
 	unsigned long	start_time;
 }t_data;
 
@@ -50,6 +50,7 @@ typedef struct s_philo
 }t_philo;
 
 int				error(int key);
+void			ft_kill(t_philo *philos);
 int				check_arguments(char **av, t_data *data);
 unsigned long	current_time(void);
 void			ft_print(t_philo *ph, char *msg, int flag);

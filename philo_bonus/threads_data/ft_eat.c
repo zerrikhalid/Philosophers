@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:39:57 by kzerri            #+#    #+#             */
-/*   Updated: 2023/06/20 22:20:02 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/06/22 22:21:53 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_eat(t_philo *philo)
 {
-	t_data *data;
+	t_data	*data;
 
 	data = philo->data;
 	sem_wait(data->forks);

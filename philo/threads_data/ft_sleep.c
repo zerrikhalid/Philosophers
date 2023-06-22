@@ -6,17 +6,17 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:51:37 by kzerri            #+#    #+#             */
-/*   Updated: 2023/06/20 22:24:27 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/06/22 21:49:47 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void    ft_sleep(unsigned long time)
+void	ft_sleep(unsigned long time)
 {
-	unsigned long start;
+	unsigned long	start;
 
 	start = current_time();
-	while(current_time() - start < time)
+	while (current_time() - start < time)
 		usleep(50);
 }

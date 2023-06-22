@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:39:40 by kzerri            #+#    #+#             */
-/*   Updated: 2023/06/20 21:44:09 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/06/22 21:51:34 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	check_meals(t_philo *philos)
 {
-	t_data *data;
-	int i;
-	int count;
+	t_data	*data;
+	int		i;
+	int		count;
 
 	data = philos->data;
 	i = -1;

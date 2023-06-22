@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 18:42:13 by kzerri            #+#    #+#             */
-/*   Updated: 2023/06/20 22:34:03 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/06/22 22:15:48 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,22 @@ int	ft_atoi(char *av)
 	return (res);
 }
 
+void	init(t_data *data)
+{
+	sem_unlink("/forks");
+	sem_unlink("/print");
+	sem_unlink("/meal");
+	data->forks = sem_open("/forks", O_CREAT, 0600, data->nbr_philos);
+	data->print = sem_open("/print", O_CREAT, 0600, 1);
+	data->meal = sem_open("/meal", O_CREAT, 0600, 1);
+}
+
 int	check_arguments(char **av, t_data *data)
 {
-	int i;
-	int res;
+	int	i;
+	int	res;
 
 	i = 0;
-
 	data->nbr_t_philo_m_eat = -1;
 	while (av[++i])
 	{
@@ -53,11 +62,6 @@ int	check_arguments(char **av, t_data *data)
 		if (i == 5)
 			data->nbr_t_philo_m_eat = res;
 	}
-	sem_unlink("/forks");
-	sem_unlink("/print");
-	sem_unlink("/meal");
-	data->forks = sem_open("/forks", O_CREAT, 0600, data->nbr_philos);
-	data->print = sem_open("/print", O_CREAT, 0600, 1);
-	data->meal = sem_open("/meal", O_CREAT, 0600, 1);
+	init(data);
 	return (2);
 }

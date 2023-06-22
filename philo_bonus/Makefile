@@ -10,7 +10,7 @@ CFLAGS		=	-Wall -Wextra -Werror  -pthread
 RM			=	rm -rf
 
 SRCS		=	main.c parsing/error.c parsing/check_args.c parsing/get_time.c  threads_data/ft_sleep.c threads_data/ft_print.c threads_data/ft_eat.c\
-				threads_data/check_death.c 
+				threads_data/check_death.c threads_data/ft_kill.c 
 
 SRCS_BONUS	=	
 
