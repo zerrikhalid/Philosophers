@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 18:42:42 by kzerri            #+#    #+#             */
-/*   Updated: 2023/06/22 22:20:50 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/06/23 05:44:00 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->philo_id % 2 == 0)
-		usleep(200);
 	while (1)
 	{
 		ft_eat(philo);
@@ -66,6 +64,8 @@ void	create_process(t_philo *philo)
 	while (++i < philo->data->nbr_philos)
 	{
 		philo[i].pid = fork();
+		if (i % 2)
+			usleep(50);
 		if (!philo[i].pid)
 		{
 			start_philos(philo + i);
