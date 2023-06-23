@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 18:42:42 by kzerri            #+#    #+#             */
-/*   Updated: 2023/06/22 21:48:33 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/06/23 05:30:07 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,12 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->philo_id % 2 == 0)
-		usleep(50);
 	while (1)
 	{
 		ft_eat(philo);
 		ft_print(philo, "is sleeping", 0);
 		ft_sleep(philo->data->time_to_sleep);
 		ft_print(philo, "is thinking", 0);
-		usleep(50);
 	}
 	return (NULL);
 }
@@ -40,6 +37,8 @@ int	start_philos(t_philo *philos, t_data *data)
 	i = -1;
 	while (++i < data->nbr_philos)
 	{
+		if (i % 2)
+			usleep(50);
 		if (pthread_create(&philos[i].thread, NULL, routine, \
 			(void *)(philos + i)))
 			return (1);
